@@ -1,21 +1,29 @@
 def cyclic_sort(nums):
-    num_sorted = 0
-    i = 0
+    #num_sorted = 0
+    #i = 0
 
-    while num_sorted != len(nums) and i < len(nums):
-        curr = nums[i]
-        if curr == i + 1:
-            # num_sorted += 1
-            i += 1
-        else:
-            temp = nums[curr - 1]
-            while temp != curr:
-                nums[curr - 1] = curr
-                num_sorted += 1
-                curr = temp
-                temp = nums[curr - 1]
-            num_sorted += 1
-            i += 1
+    # while num_sorted != len(nums) and i < len(nums):
+    #     curr = nums[i]
+    #     if curr == i + 1:
+    #         # num_sorted += 1
+    #         i += 1
+    #     else:
+    #         temp = nums[curr - 1]
+    #         while temp != curr:
+    #             nums[curr - 1] = curr
+    #             num_sorted += 1
+    #             curr = temp
+    #             temp = nums[curr - 1]
+    #         num_sorted += 1
+    #         i += 1
+
+    # slightly longer algo to swap then check, I think?
+    for i in range(len(nums)):
+        while nums[i] != i + 1:
+            temp = nums[nums[i] - 1]
+            nums[nums[i] - 1] = nums[i]
+            nums[i] = temp
+
 
 
 
