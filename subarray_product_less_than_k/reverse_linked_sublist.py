@@ -14,10 +14,20 @@ class ListNode:
         self.val = val
         self.next = next
         
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        if head == None or head.next == None:
+        if head == None or head.next == None or left == right:
             return head
+        if head.next.next == None:
+            temp = head.next
+            temp.next = head
+            head.next = None
+            return temp
         
     # advance to the point we get the left node
     # Doing the third step in an inelegant fashion at first:
@@ -46,9 +56,8 @@ class Solution:
         else:
             succeeding_node = None
 
-        print(f"preceding_node: {preceding_node.val}\nleft_node: {left_node.val}\n ")
-        print(f"right_node: {right_node.val}\nsucceeding_node: {str(succeeding_node.val) if succeeding_node else 'None'}")
-        PrintLL(head)
+        #print(f"preceding_node: {preceding_node.val}\nleft_node: {left_node.val}\n ")
+        #print(f"right_node: {right_node.val}\nsucceeding_node: {str(succeeding_node.val) if succeeding_node else 'None'}")
 
 
 
@@ -64,7 +73,7 @@ class Solution:
             temp = forward
 
     # connect up the rest of the list
-    # this consists of:
+    # this consist of:
     # - Connect the node immediately before sublist to the new beginning 
     #   of the reversed sublist
     # - Connect the new end of the sublist to the node immediately after
@@ -72,10 +81,13 @@ class Solution:
     # so in above example, point 1 to 4, and then 2 to 5. 
         print(f"left_node: {left_node.val}")
         left_node.next = succeeding_node
-        if preceding_node != None:
+        if preceding_node:
             preceding_node.next = right_node
+        else:
+            head = right_node
         
         return head
+        
 
 if __name__ == "__main__":
     s = Solution()
