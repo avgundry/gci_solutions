@@ -1,0 +1,58 @@
+from collections import deque
+from typing import List, Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if root == None:
+            return []
+
+        result = deque()            
+        
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            levelSize = len(queue)
+            currLevel = []
+
+            for _ in range(levelSize):
+                curr = queue.popleft()
+                currLevel.append(curr.val)
+                if curr.left:
+                    queue.append(curr.left)
+                if curr.right:
+                    queue.append(curr.right)
+            result.appendleft(currLevel)
+
+        return result
+
+        # recursive implementation 
+        # for SOME reason doesn't work in leetcode despite working absolutely 
+        # fine here.
+    #     return self.recursiveReverseTraverse(root, 0, [])[::-1]
+
+    # def recursiveReverseTraverse(self, curr, level, arr):
+    #     if len(arr) < level + 1:
+    #         arr.append([])
+        
+    #     if curr.left:
+    #         self.recursiveReverseTraverse(curr.left, level+1, arr)
+    #     if curr.right:
+    #         self.recursiveReverseTraverse(curr.right, level+1, arr)
+
+    #     arr[level].append(curr.val)
+    #     # print(f"arr: {[[y for y in x] for x in arr]}")
+    #     return arr
+
+if __name__ == "__main__":
+    s = Solution()
+    print(s.levelOrderBottom(TreeNode(3, TreeNode(9, None, None), TreeNode(20, TreeNode(15, None, None), TreeNode(7, None, None)))))
+
+        
