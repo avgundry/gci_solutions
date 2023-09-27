@@ -1,0 +1,44 @@
+# path sum II on leetcode
+
+# Definition for a binary tree node.
+from typing import List, Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        if targetSum == 0:
+            return []
+        return self.recursePath(root, targetSum, [], [])
+
+    def recursePath(self, root, target, path, paths):
+        if root == None:
+            return []
+
+        target -= root.val
+        new_path = path + [root.val]
+        if root.left == None and root.right == None:
+            # this is a leaf. Therefore, either we have a filling path or don't
+            if target == 0:
+                paths.append(new_path)
+            else:
+                return None
+
+        self.recursePath(root.left, target, new_path, paths)
+        self.recursePath(root.right, target, new_path, paths)
+
+        return paths
+
+if __name__ == "__main__":
+    s = Solution()
+    print(s.pathSum(TreeNode(0, None, None), 0))
+    print(s.pathSum(TreeNode(0, None, None), 1))
+    path = TreeNode(5, TreeNode(4, TreeNode(11, TreeNode(7, None, None), TreeNode(2, None, None)), None), TreeNode(8, TreeNode(13, None, None), TreeNode(4, TreeNode(5, None, None), TreeNode(1, None, None))))
+    print(s.pathSum(path, 22))
+    path2 = TreeNode(1, TreeNode(2, None, None), TreeNode(3, None, None))
+    print(s.pathSum(path2, 4))
