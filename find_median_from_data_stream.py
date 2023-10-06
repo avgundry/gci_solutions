@@ -2,85 +2,38 @@ import heapq
 
 
 class MedianFinder:
-
     def __init__(self):
-        # instantiate min- and max-heaps
-        self.min_heap  = []
-        self.max_heap  = []
+        self.min_heap = []
+        # it is INSANE that the standard solution for a max heap is to negate
+        # every number in the max heap and use heapq. 
+        # that's nuts
+        self.max_heap = []
 
     def addNum(self, num: int) -> None:
-        if not self.max_heap or self.max_heap[0] < num:
-            self._maxHeapPush(num)
+        if len(self.max_heap) == 0:
+            heapq.heappush(self.max_heap, -num)
+        elif num < self.max_heap[0]:
+            heapq.heappush(self.max_heap, -num)
         else:
-            self._minHeapPush(num)
+            heapq.heappush(self.min_heap, num)
 
+        # then rebalance
         if len(self.max_heap) > len(self.min_heap) + 1:
-            # push biggest num from max_heap onto min_heap
-            self.
+            # we're fine with the max heap having the extra val in the case of
+            # having an odd number of values
+            heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
+        elif len(self.min_heap) > len(self.max_heap):
+            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
+
         
-        
+
     def findMedian(self) -> float:
-        return self.median
-
-    def _minHeapPop(self):
-        num = self.min_heap[0]
-
-        if len(self.min_heap) == 1:
-            self.min_heap = []
+        if (len(self.min_heap) + len(self.max_heap)) % 2 == 0:
+            return (self.min_heap[0] - self.max_heap[0]) / 2
         else:
-            self.min_heap[0] = self.min_heap[-1]
-            del self.min_heap[-1]
-
-            # then bubble down...sigh
+            return -self.max_heap[0]
 
 
-
-        return num
-
-    def _minHeapPush(self, num):
-        # append to the end of the list
-        self.min_heap.append(num)
-        # set curr to be the end of the list, i.e. the number we just appended
-        curr = len(self.min_heap) - 1
-
-        # while the invariant is not maintained, bubble the smallest number up 
-        # uses inverted floor division to mimic ceil without use of math module
-        par = -(curr // -2) - 1
-        while self.min_heap[curr] < self.min_heap[par] and par != -1:
-            # swap until inserted num is in correct spot
-            temp = self.min_heap[curr]
-            self.min_heap[curr] = self.min_heap[par]
-            self.min_heap[par] = temp
-            curr = par
-            par = -(curr // -2) - 1
-
-        self.min_len += 1
-        # return the new len of min_heap
-        return self.min_len 
-
-
-    def _maxHeapPush(self, num):
-        # similar to above, append to end of array and bubble up, simply with
-        # different direction.
-
-        self.max_heap.append(num)
-        curr = len(self.max_heap) - 1
-
-        # while the invariant is not maintained, bubble up
-        # again uses inverted floor division to mimic ceil without use of math 
-        # module
-        par = -(curr // -2) - 1
-        while self.max_heap[curr] > self.max_heap[par] and par != -1:
-            # swap until inserted num is in correct spot
-            temp = self.max_heap[curr]
-            self.max_heap[curr] = self.max_heap[par]
-            self.max_heap[par] = temp
-            curr = par
-            par = -(curr // -2) - 1
-        
-        self.max_len += 1
-        # return the new len of min_heap
-        return self.max_len 
 
 # param_2 = obj.findMedian()
 if __name__ == "__main__":
