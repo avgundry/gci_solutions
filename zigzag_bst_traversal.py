@@ -12,63 +12,37 @@ import bst_tools
 
 class Solution:
     def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        res = []
-        if root == None:
-            return res
-        
-        # whether we're going left to right or opposite on this level
-        l2r = True
+        # queue used to store current level AND next level's children
         dq = deque()
-        dq.append(root)
+
+        if root == None:
+            return dq
+        else:
+            dq.append(root)
+
+        levels = []
+        l2r = True
 
         while dq:
-            print(dq)
-            temp_nodes = deque() 
-            curr_level = []
-            lvl_size = len(dq)
-            for _ in range(lvl_size):
+            level = []
+            lvl_len = len(dq)
+            for i in range(lvl_len):
                 curr = dq.popleft()
-                curr_level.append(curr.val)
-                if l2r:
-                    if curr.right:
-                        temp_nodes.append(curr.right)
-                    if curr.left:
-                        temp_nodes.append(curr.left)
-                else:
-                    if curr.right:
-                        temp_nodes.appendleft(curr.right)
-                    if curr.left:
-                        temp_nodes.appendleft(curr.left)
+                level.append(curr.val)
+                if curr.left:
+                    dq.append(curr.left)
+                if curr.right:
+                    dq.append(curr.right)
             
-            res.append(curr_level)
-            dq.extend(temp_nodes)
+            if not l2r:
+                level.reverse()
+            levels.append(level)
             l2r = not l2r
 
-        return res
 
-def inorder(root):
-    if root is None:
-        return
-    
-    inorder(root.left)
-    print(root.val, end=' ')
-    inorder(root.right)
+        return levels
 
-def recursiveBSTbuild(arr):
-    length = len(arr)
 
-    return traverseAndReplace(arr, arr[0], 0, length)
-
-def traverseAndReplace(arr, root, i, length):
-    if i < length:
-        root = TreeNode(arr[i])
-        root.left = traverseAndReplace(arr, root.left, 2*i+1, length)
-        root.right = traverseAndReplace(arr, root.right, 2*i+2, length)
-
-    return root
-
-#inorder(recursiveBSTbuild([0,2,4,1,None,3,-1,5,1,None,6,None,8]))
-            
 if __name__ == "__main__":
     s = Solution()
     print(s.zigzagLevelOrder(TreeNode(3, TreeNode(9, None, None), TreeNode(20, TreeNode(15, None, None), TreeNode(7, None, None)))))
