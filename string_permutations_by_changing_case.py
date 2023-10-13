@@ -7,8 +7,7 @@ from typing import List
 class Solution:
     def letterCasePermutation(self, s: str) -> List[str]:
         # GTCI 'proper' solution
-        # actually fails the leetcode testcase because it doesn't check for errors on line 18.
-        # actually, it's just straight up wrong. is this a mistranslation of code?
+        # nevermind - I mistyped the code. sigh
         perms = []
         perms.append(s)
         for i in range(len(s)):
@@ -16,7 +15,7 @@ class Solution:
                 n = len(perms)
                 for j in range(n):
                     chs = list(perms[j])
-                    chs = chs[i].swapcase()
+                    chs[i] = chs[i].swapcase()
                     perms.append(''.join(chs))
 
         return perms
