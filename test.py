@@ -1,17 +1,16 @@
-def find_missing_number(arr):
-    n = len(arr) + 1
-    x1 = 1
-    for i in range(2, n+1):
-        x1 = x1 ^ i
-    
-    x2 = arr[0]
-    for i in range(1, n-1):
-        x2 = x2 ^ arr[i]
-    
-    return x1 ^ x2
+from typing import Collection
 
-def main():
-    arr = [1, 5, 2, 6, 4]
-    print('Missing number is ' + str(find_missing_number(arr)))
+def cut_rod(p, n):
+    if n == 0:
+        return 0
+    q = float('-inf')
 
-main()
+    for i in range(1, n + 1):
+        q = max(q, p[i - 1] + cut_rod(p, n - i))
+
+    return q
+
+if __name__ == "__main__":
+    p = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30, 30, 31, 33, 45, 48, 49, 50, 51, 55, 58, 60, 67, 69, 70, 71]
+    for i in range(len(p) + 1):
+        print(cut_rod(p, i))
