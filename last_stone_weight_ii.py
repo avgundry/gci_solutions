@@ -17,7 +17,7 @@ class Solution:
 
     def recurseStones(self, capacity, stones, n, dp):
         if (n == 0 or capacity == 0):
-            return 0;
+            return 0
 
         if dp[n][capacity] != -1:
             return dp[n][capacity]
