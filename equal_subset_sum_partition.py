@@ -1,31 +1,26 @@
-import collections
-from typing import Collection, List
+from typing import List
 
 
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        n = len(nums)
-        partition_diffs = collections.deque()
-        partition_diffs.append(nums[0])
-        partition_diffs.append(-nums[0])
+        partition_diffs = set()
+        partition_diffs.add(nums[0])
+        partition_diffs.add(-nums[0])
 
 
-        for i in range(1, n):
+        for i in range(1, len(nums)):
             # calculate the partition differences 
             # partition_diffs.append([0] * len(partition_diffs[i-1]) * 2)
             # for j in range(i):
             #     print(partition_diffs[i - 1])
             curr = nums[i]
-            curr_len = len(partition_diffs)
-            for j in range(curr_len):
-                pop = partition_diffs.popleft()
-                partition_diffs.append(pop + curr)
-                partition_diffs.append(pop - curr)
-
-            print(partition_diffs)
+            curr_lvl = set()
+            for diff in partition_diffs:
+                curr_lvl.add(diff + curr)
+                curr_lvl.add(diff - curr)
+            partition_diffs = curr_lvl
 
         return 0 in partition_diffs
-
 
 
 if __name__ == "__main__":
