@@ -13,6 +13,13 @@ class ListNode:
         else:
             return f"ListNode({self.val}, None)"
 
+    def __repr__(self):
+        if self.next:
+            return f"ListNode({self.val}, {self.next.__str__()}) "
+        else:
+            return f"ListNode({self.val}, None)"
+
+
 
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
@@ -26,7 +33,7 @@ class Solution:
             fast = fast.next.next
         
         mid = slow
-        print(mid)
+        # print(mid)
 
         # then reverse the second half
         prev = None
