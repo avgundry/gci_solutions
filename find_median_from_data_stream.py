@@ -3,35 +3,38 @@ import heapq
 
 class MedianFinder:
     def __init__(self):
+        # contains the largest half of the numbers
         self.min_heap = []
-        # it is INSANE that the standard solution for a max heap is to negate
-        # every number in the max heap and use heapq. 
-        # that's nuts
+        # contains the smallest half of the numbers
+        # forgot I have to negate everything in the max heap. UGH
         self.max_heap = []
 
     def addNum(self, num: int) -> None:
-        if len(self.max_heap) == 0:
-            heapq.heappush(self.max_heap, -num)
-        elif num < self.max_heap[0]:
+        # make max heap always larger than min?
+        # or...
+        if len(self.max_heap) == 0 or -num > self.max_heap[0]:
             heapq.heappush(self.max_heap, -num)
         else:
             heapq.heappush(self.min_heap, num)
 
-        # then rebalance
+        # then rebalance the heaps
         if len(self.max_heap) > len(self.min_heap) + 1:
-            # we're fine with the max heap having the extra val in the case of
-            # having an odd number of values
+            # if max heap is more than 1 greater than min heap,
+            # pop one off it and move to min heap
             heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
         elif len(self.min_heap) > len(self.max_heap):
             heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
 
-        
 
     def findMedian(self) -> float:
-        if (len(self.min_heap) + len(self.max_heap)) % 2 == 0:
-            return (self.min_heap[0] - self.max_heap[0]) / 2
-        else:
-            return -self.max_heap[0]
+        print(f"max_heap: {self.max_heap} min_heap: {self.min_heap}")
+        # only occurs in the case we have a single number added
+        # if len(self.min_heap) == 0:
+        #     return -self.max_heap[0]
+        if len(self.max_heap) == len(self.min_heap):
+            return (-self.max_heap[0] + self.min_heap[0])/2
+
+        return -self.max_heap[0]
 
 
 
@@ -39,13 +42,18 @@ class MedianFinder:
 if __name__ == "__main__":
     obj = MedianFinder()
     obj.addNum(1)
-    param_2 = obj.findMedian()
-    print(param_2)
-    obj2 = MedianFinder()
-    obj2.addNum(1)
-    obj2.addNum(2)
-    obj2.addNum(5)
-    param_3 = obj2.findMedian()
+    obj.addNum(2)
+    obj.findMedian()
+    obj.addNum(3)
+    obj.findMedian()
+    # obj.addNum(1)
+    # param_2 = obj.findMedian()
+    # print(param_2)
+    # obj2 = MedianFinder()
+    # obj2.addNum(1)
+    # obj2.addNum(2)
+    # obj2.addNum(5)
+    # param_3 = obj2.findMedian()
     print(param_3)
 
 # Your MedianFinder object will be instantiated and called as such:
