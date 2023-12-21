@@ -4,34 +4,23 @@ from typing import List
 
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        numslen = len(nums)
-
-        # create list of perms as a dq
-        perms = deque()
-
-        # have an empty list added at the start, to extend upon.
-        perms.append([])
-
-        # for each number, create permutations from it
+        # recursively generate each possible permutation starting with
+        # a given number...? perhaps? that turns it into a dp problem I
+        # think.
+        perms = [[]]
         for num in nums:
-            n = len(perms)
-            for _ in range(n):
-                # pop EVERY old perm out, one by one
-                old_perm = perms.popleft()
-
-                # once we have it, we begin inserting into it to create new perms
-                for j in range(len(old_perm) + 1):
-                    new_perm = list(old_perm)
-                    new_perm.insert(j, num)
-                    perms.append(new_perm)
+            q = []
+            while perms:
+                q.append(perms.pop())
+            currlen = len(q[0]) + 1
+            for perm in q:
+                for i in range(currlen):
+                    x = perm.copy()
+                    x.insert(i, num)
+                    perms.append(x)
         
-        return list(perms)
-    
-    def fact(self, num):
-        ret = 1
-        for i in range(2, num + 1):
-            ret *= i
-        return ret
+        return perms
+
 
 if __name__ == "__main__":
     s = Solution()
