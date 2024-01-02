@@ -2,27 +2,39 @@ from heapq import *
 from typing import List
 
 class KthLargest:
+    def __init__(self, k: int, nums: List[int]):
+        self.k = k
+        self.nums = [sorted(nums)[-i] for i in range(1, k + 1)]
+        heapify(self.nums)
+        
+
+    def add(self, val: int) -> int:
+        if val > self.nums[0]:
+            heappushpop(self.nums, val)
+        
+        return self.nums[0]
+
     """
     Two-heap method.
     """
-    def __init__(self, k: int, nums: List[int]):
-        self.k = k
-        self.nums = []
-        self.klargest = nums
-        heapify(self.klargest)
-        while len(self.klargest) > k:
-            self.nums.append(heappop(self.klargest))
+    # def __init__(self, k: int, nums: List[int]):
+    #     self.k = k
+    #     self.nums = []
+    #     self.klargest = nums
+    #     heapify(self.klargest)
+    #     while len(self.klargest) > k:
+    #         self.nums.append(heappop(self.klargest))
 
-    def add(self, val: int) -> int:
-        if len(self.klargest) < self.k:
-            heappush(self.klargest, val)
-        elif val > self.klargest[0]:
-            self.nums.append(heappushpop(self.klargest, val))
-        else:
-            self.nums.append(val)
-            heappush(self.nums, val)
+    # def add(self, val: int) -> int:
+    #     if len(self.klargest) < self.k:
+    #         heappush(self.klargest, val)
+    #     elif val > self.klargest[0]:
+    #         self.nums.append(heappushpop(self.klargest, val))
+    #     else:
+    #         self.nums.append(val)
+    #         heappush(self.nums, val)
 
-        return self.klargest[0]
+    #     return self.klargest[0]
 
 
     """
