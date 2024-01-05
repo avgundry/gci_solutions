@@ -14,7 +14,6 @@ class Solution:
         q.append([])
         for num in candidates:
             currlen = len(q)
-            for i in curr
             while q:
                 curr = q.pop()
                 curr.append(num)
