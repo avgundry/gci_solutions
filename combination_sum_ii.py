@@ -6,6 +6,11 @@ from typing import List
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         candidates.sort()
+        # I *think* that keeping an array of the possible sums at 
+        # index[i] in dp[i] would work just fine.
+        # I.e. dp[i] represents all possible sums of all possible 
+        # subsets from index i onwards...? No...that's O(2^n) time :\
+        #
         result = []
         self.recurse(candidates, 0, [], result, target)
         return result
